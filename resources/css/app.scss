@@ -1,0 +1,744 @@
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+// Custom Veloria styles — Grey, Pink & White
+:root {
+    --veloria-primary: #d63384;
+    --veloria-primary-dark: #b02a6f;
+    --veloria-primary-light: #f0a1c7;
+    --veloria-secondary: #6c757d;
+    --veloria-dark: #3a3a3a;
+    --veloria-grey: #5a5a5a;
+    --veloria-light-grey: #f0f0f0;
+    --veloria-white: #ffffff;
+    --veloria-bg: #f8f8f8;
+    --veloria-pink-soft: #fdf2f8;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--veloria-bg);
+    color: var(--veloria-dark);
+}
+
+// Navbar customization
+.navbar-veloria {
+    background: var(--veloria-white);
+    border-bottom: 2px solid var(--veloria-primary);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.06);
+
+    .navbar-brand {
+        color: var(--veloria-primary) !important;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    .nav-link {
+        color: var(--veloria-dark) !important;
+        font-weight: 500;
+
+        &:hover {
+            color: var(--veloria-primary) !important;
+        }
+    }
+
+    .tagline {
+        font-size: 0.7rem;
+        color: var(--veloria-secondary);
+        letter-spacing: 0.5px;
+    }
+}
+
+// Top bar
+.top-bar {
+    background: var(--veloria-dark);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.8rem;
+    padding: 6px 0;
+
+    strong {
+        color: var(--veloria-primary-light);
+    }
+}
+
+// Search bar
+.search-bar {
+    .form-control {
+        border: 2px solid #e0e0e0;
+        border-right: none;
+        border-radius: 25px 0 0 25px;
+        padding: 10px 20px;
+
+        &:focus {
+            border-color: var(--veloria-primary);
+            box-shadow: none;
+        }
+    }
+
+    .btn-search {
+        background: var(--veloria-primary);
+        color: white;
+        border: 2px solid var(--veloria-primary);
+        border-radius: 0 25px 25px 0;
+        padding: 10px 20px;
+
+        &:hover {
+            background: var(--veloria-primary-dark);
+            border-color: var(--veloria-primary-dark);
+        }
+    }
+}
+
+// Hero section
+.hero-section {
+    background: linear-gradient(135deg, var(--veloria-dark) 0%, #4a4a4a 50%, var(--veloria-primary) 100%);
+    color: white;
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(214, 51, 132, 0.2) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .hero-tagline {
+        font-size: 1.2rem;
+        font-style: italic;
+        opacity: 0.9;
+        letter-spacing: 1px;
+    }
+}
+
+// Product card
+.product-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(214, 51, 132, 0.12);
+        border-color: var(--veloria-primary-light);
+    }
+
+    .product-image {
+        height: 250px;
+        object-fit: cover;
+    }
+
+    .product-category {
+        color: var(--veloria-primary);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+    }
+
+    .product-price {
+        color: var(--veloria-primary);
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+
+    .product-old-price {
+        color: var(--veloria-secondary);
+        text-decoration: line-through;
+        font-size: 0.85rem;
+    }
+}
+
+// Section headings
+.section-heading {
+    position: relative;
+    padding-bottom: 12px;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: var(--veloria-primary);
+        border-radius: 2px;
+    }
+
+    &.text-center::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+// Auth pages
+.auth-wrapper {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--veloria-dark) 0%, #4a4a4a 40%, var(--veloria-primary) 100%);
+}
+
+.auth-card {
+    max-width: 450px;
+    margin: 0 auto;
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+    background: white;
+}
+
+.auth-brand {
+    i {
+        color: var(--veloria-primary);
+        background: rgba(214, 51, 132, 0.15);
+        width: 64px;
+        height: 64px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 1.8rem;
+    }
+}
+
+// Admin sidebar
+.admin-sidebar {
+    min-height: 100vh;
+    background: linear-gradient(180deg, var(--veloria-dark), #2d2d2d);
+    color: white;
+
+    .sidebar-brand {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+        .brand-name {
+            color: var(--veloria-primary-light);
+        }
+    }
+
+    .nav-link {
+        color: rgba(255, 255, 255, 0.7);
+        padding: 12px 20px;
+        border-radius: 8px;
+        margin: 2px 10px;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background: rgba(214, 51, 132, 0.15);
+            color: var(--veloria-primary-light);
+        }
+
+        &.active {
+            background: var(--veloria-primary);
+            color: white;
+        }
+
+        i {
+            width: 24px;
+            text-align: center;
+            margin-right: 10px;
+        }
+    }
+}
+
+// Admin stat cards
+.stat-card {
+    border: none;
+    border-radius: 12px;
+    border-left: 4px solid var(--veloria-primary);
+    transition: transform 0.2s ease;
+
+    &:hover {
+        transform: translateY(-2px);
+    }
+
+    &.stat-revenue { border-left-color: #28a745; }
+    &.stat-orders { border-left-color: var(--veloria-primary); }
+    &.stat-products { border-left-color: #ffc107; }
+    &.stat-customers { border-left-color: #17a2b8; }
+}
+
+// Buttons
+.btn-veloria {
+    background: var(--veloria-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background: var(--veloria-primary-dark);
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(214, 51, 132, 0.3);
+    }
+}
+
+.btn-veloria-outline {
+    background: transparent;
+    color: var(--veloria-primary);
+    border: 2px solid var(--veloria-primary);
+    border-radius: 8px;
+    padding: 9px 24px;
+    font-weight: 600;
+
+    &:hover {
+        background: var(--veloria-primary);
+        color: white;
+    }
+}
+
+// Category cards
+.category-card {
+    border: 1px solid #eee;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    background: white;
+
+    &:hover {
+        border-color: var(--veloria-primary-light);
+        box-shadow: 0 4px 15px rgba(214, 51, 132, 0.1);
+
+        .category-icon {
+            background: var(--veloria-primary) !important;
+            color: white !important;
+        }
+    }
+
+    .category-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--veloria-pink-soft);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        color: var(--veloria-primary);
+    }
+}
+
+// Footer
+.footer-veloria {
+    background: var(--veloria-dark);
+    color: rgba(255, 255, 255, 0.75);
+
+    h5, h6 {
+        color: white;
+    }
+
+    a {
+        color: rgba(255, 255, 255, 0.6);
+        transition: color 0.2s;
+
+        &:hover {
+            color: var(--veloria-primary-light);
+        }
+    }
+
+    .footer-brand {
+        color: var(--veloria-primary-light);
+    }
+
+    .footer-divider {
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .social-icon {
+        width: 36px;
+        height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        transition: all 0.3s;
+
+        &:hover {
+            background: var(--veloria-primary);
+            color: white;
+        }
+    }
+}
+
+// Features bar
+.features-bar {
+    background: white;
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+
+    .feature-icon {
+        color: var(--veloria-primary);
+    }
+}
+
+// Newsletter
+.newsletter-section {
+    background: var(--veloria-pink-soft);
+    border-top: 2px solid var(--veloria-primary-light);
+}
+
+// Badge
+.badge-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+// Wishlist heart
+.wishlist-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    color: var(--veloria-secondary);
+    transition: all 0.3s;
+    z-index: 2;
+
+    &:hover, &.active {
+        color: var(--veloria-primary);
+    }
+}
+
+// Scrollbar
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--veloria-light-grey);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+
+    &:hover {
+        background: var(--veloria-primary-light);
+    }
+}
+
+// ============================================
+// RESPONSIVE STYLES
+// ============================================
+
+// Navbar brand
+.brand-logo {
+    font-size: 1.6rem;
+}
+
+// Section titles
+.section-title {
+    font-size: 1.5rem;
+}
+
+// Feature bar text
+.feature-title {
+    font-size: 0.85rem;
+}
+
+.feature-subtitle {
+    font-size: 0.72rem;
+}
+
+// Category card name
+.category-name {
+    font-size: 0.8rem;
+}
+
+// Product card title
+.product-title {
+    font-size: 0.9rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+// Banner heading
+.banner-heading {
+    font-size: 1.8rem;
+}
+
+// Newsletter form
+.newsletter-form {
+    max-width: 500px;
+}
+
+.newsletter-input {
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    padding: 10px 20px;
+}
+
+// Admin notification dropdown
+.notification-dropdown {
+    width: 300px;
+}
+
+// Admin offcanvas sidebar (mobile)
+.offcanvas.admin-sidebar {
+    min-height: auto;
+}
+
+// Navbar toggler touch target
+.navbar-toggler {
+    min-width: 44px;
+    min-height: 44px;
+}
+
+// Hero title
+.hero-title {
+    font-size: 3rem;
+}
+
+// ---- TABLET (max 991px) ----
+@media (max-width: 991.98px) {
+    .hero-title {
+        font-size: 2.4rem;
+    }
+
+    .hero-tagline {
+        font-size: 1rem;
+    }
+
+    .section-title {
+        font-size: 1.3rem;
+    }
+
+    .banner-heading {
+        font-size: 1.5rem;
+    }
+
+    .search-bar {
+        max-width: 350px !important;
+    }
+}
+
+// ---- MOBILE (max 767px) ----
+@media (max-width: 767.98px) {
+    .hero-section {
+        padding: 50px 0 !important;
+
+        &::before {
+            width: 300px;
+            height: 300px;
+            top: -25%;
+            right: -15%;
+        }
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-tagline {
+        font-size: 0.9rem;
+    }
+
+    .section-title {
+        font-size: 1.15rem;
+    }
+
+    .product-image {
+        height: 200px;
+    }
+
+    .banner-heading {
+        font-size: 1.3rem;
+    }
+
+    .notification-dropdown {
+        width: 260px;
+    }
+
+    .features-bar {
+        padding: 10px 0;
+    }
+
+    .feature-title {
+        font-size: 0.75rem;
+    }
+
+    .feature-subtitle {
+        font-size: 0.65rem;
+    }
+
+    // Admin - reduce padding on stat cards
+    .stat-card .card-body {
+        padding: 0.75rem;
+
+        h4 {
+            font-size: 1.1rem;
+        }
+    }
+
+    // Admin - table scroll
+    .table-responsive {
+        font-size: 0.8rem;
+    }
+}
+
+// ---- SMALL MOBILE (max 575px) ----
+@media (max-width: 575.98px) {
+    .hero-section {
+        padding: 40px 0 !important;
+    }
+
+    .hero-title {
+        font-size: 1.7rem;
+    }
+
+    .hero-tagline {
+        font-size: 0.85rem;
+    }
+
+    .product-image {
+        height: 170px;
+    }
+
+    .product-title {
+        font-size: 0.78rem;
+        -webkit-line-clamp: 1;
+    }
+
+    .product-price {
+        font-size: 0.9rem !important;
+    }
+
+    .product-old-price {
+        font-size: 0.72rem !important;
+    }
+
+    .product-category {
+        font-size: 0.6rem !important;
+    }
+
+    .product-card .card-body {
+        padding: 0.5rem !important;
+    }
+
+    .category-card {
+        padding: 0.5rem !important;
+
+        .category-icon {
+            width: 45px;
+            height: 45px;
+        }
+    }
+
+    .category-name {
+        font-size: 0.7rem;
+    }
+
+    .brand-logo {
+        font-size: 1.3rem;
+    }
+
+    .section-title {
+        font-size: 1.05rem;
+    }
+
+    .btn-veloria.btn-lg,
+    .btn-veloria-outline.btn-lg {
+        font-size: 0.9rem;
+        padding: 8px 20px;
+    }
+
+    .btn-veloria.btn-sm {
+        font-size: 0.72rem;
+        padding: 5px 8px;
+    }
+
+    .wishlist-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 0.75rem;
+        top: 6px;
+        right: 6px;
+    }
+
+    .newsletter-input {
+        padding: 8px 15px;
+        font-size: 0.85rem;
+    }
+
+    .top-bar {
+        font-size: 0.7rem;
+        padding: 4px 0;
+    }
+
+    .footer-veloria {
+        .social-icon {
+            width: 32px;
+            height: 32px;
+            font-size: 0.85rem;
+        }
+    }
+
+    .auth-card {
+        margin: 20px auto;
+
+        .card-body {
+            padding: 1.25rem !important;
+        }
+    }
+
+    // Admin dashboard
+    .stat-card .card-body {
+        padding: 0.6rem;
+
+        h4 {
+            font-size: 1rem;
+        }
+
+        .rounded-circle {
+            padding: 0.5rem !important;
+
+            i {
+                font-size: 1.1rem !important;
+            }
+        }
+    }
+}
+
+// ---- EXTRA SMALL MOBILE (max 359px) ----
+@media (max-width: 359.98px) {
+    .hero-title {
+        font-size: 1.4rem;
+    }
+
+    .brand-logo {
+        font-size: 1.1rem;
+    }
+
+    .product-image {
+        height: 140px;
+    }
+
+    .category-card .category-icon {
+        width: 36px;
+        height: 36px;
+
+        i {
+            font-size: 0.9rem !important;
+        }
+    }
+}
