@@ -48,10 +48,18 @@
             <p><strong>{{ $order->order_number }}</strong></p>
             <p>Date: {{ $order->created_at->format('M d, Y') }}</p>
             <p>
+                @php
+                    $statusBadge = match($order->status) {
+                        'processing' => 'badge-info',
+                        'shipped' => 'badge-info',
+                        'delivered' => 'badge-success',
+                        'cancelled' => 'badge-warning',
+                        default => 'badge-warning',
+                    };
+                @endphp
+                <span class="badge {{ $statusBadge }}">{{ strtoupper($order->status) }}</span>
                 @if($order->payment && $order->payment->status === 'completed')
                     <span class="badge badge-success">PAID</span>
-                @else
-                    <span class="badge badge-warning">{{ strtoupper($order->payment->status ?? 'PENDING') }}</span>
                 @endif
             </p>
         </div>

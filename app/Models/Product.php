@@ -71,15 +71,16 @@ class Product extends Model
     {
         $img = $this->primaryImage();
         if ($img) {
-            // If it starts with http, it's an external URL
             if (str_starts_with($img, 'http')) return $img;
-            return asset('storage/' . $img);
+            if (file_exists(storage_path('app/public/' . $img))) {
+                return asset('storage/' . $img);
+            }
         }
-        // Generate a color-based placeholder with product initials
-        $colors = ['E8B4B8', 'A8D8EA', 'D5C4A1', 'C3B1E1', 'B5EAD7', 'FFD6A5'];
-        $color = $colors[crc32($this->name) % count($colors)];
-        $initials = urlencode(strtoupper(substr($this->name, 0, 2)));
-        return "https://via.placeholder.com/400x450/{$color}/333?text={$initials}";
+        // Branded placeholder with product name
+        $colors = ['E8B4B8', 'F5CCD3', 'D5C4A1', 'C3B1E1', 'B5EAD7', 'FFD6A5', 'F0D5E0', 'D4E7C5'];
+        $color = $colors[abs(crc32($this->name)) % count($colors)];
+        $text = urlencode($this->name);
+        return "https://placehold.co/400x500/{$color}/555?text={$text}&font=playfair-display";
     }
 
     public function isInStock(): bool

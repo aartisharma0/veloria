@@ -13,6 +13,8 @@ class InvoiceController extends Controller
             abort(403);
         }
 
+        // Refresh from DB to get latest status
+        $order->refresh();
         $order->load(['items.product', 'user', 'shippingAddress', 'payment']);
 
         // Generate HTML invoice and convert to downloadable HTML

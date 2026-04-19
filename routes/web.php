@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Frontend\AccountController;
@@ -32,6 +33,8 @@ Route::get('/shipping-delivery', [PageController::class, 'shipping'])->name('pag
 Route::get('/returns-exchanges', [PageController::class, 'returns'])->name('pages.returns');
 Route::get('/size-guide', [PageController::class, 'sizeGuide'])->name('pages.size-guide');
 Route::get('/faqs', [PageController::class, 'faqs'])->name('pages.faqs');
+Route::get('/terms', [PageController::class, 'terms'])->name('pages.terms');
+Route::get('/privacy-policy', [PageController::class, 'privacy'])->name('pages.privacy');
 Route::get('/product/{slug}', [ProductController::class, 'show'])->name('products.show');
 
 // Guest only
@@ -40,7 +43,17 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:login');
     Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
     Route::post('/register', [RegisterController::class, 'register']);
+    Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgotForm'])->name('password.request');
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])->name('password.email');
+    Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword'])->name('password.update');
 });
+
+// Bug #14: Handle GET /logout gracefully
+Route::get('/logout', function () { return redirect()->route('login'); });
+
+// Bug #9: /admin redirects to admin dashboard
+Route::get('/admin', function () { return redirect()->route('admin.dashboard'); });
 
 // Cart (no auth needed - session based)
 Route::prefix('cart')->name('cart.')->group(function () {
@@ -72,6 +85,7 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::get('/orders/{id}', [AccountController::class, 'orderDetail'])->name('orders.show');
         Route::get('/addresses', [AccountController::class, 'addresses'])->name('addresses');
         Route::post('/addresses', [AccountController::class, 'storeAddress'])->name('addresses.store');
+        Route::put('/addresses/{address}', [AccountController::class, 'updateAddress'])->name('addresses.update');
         Route::delete('/addresses/{address}', [AccountController::class, 'deleteAddress'])->name('addresses.destroy');
     });
 

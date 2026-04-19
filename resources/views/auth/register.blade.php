@@ -41,7 +41,7 @@
                 <span class="input-group-text bg-white"><i class="bi bi-phone" style="color: var(--veloria-secondary);"></i></span>
                 <input type="tel" class="form-control @error('phone') is-invalid @enderror"
                        id="phone" name="phone" value="{{ old('phone') }}"
-                       placeholder="+91 98765 43210" autocomplete="tel">
+                       placeholder="Your phone number" autocomplete="off">
             </div>
             @error('phone')
                 <div class="text-danger small mt-1">{{ $message }}</div>
@@ -79,7 +79,7 @@
             <div class="form-check">
                 <input class="form-check-input @error('terms') is-invalid @enderror" type="checkbox" name="terms" id="terms" value="1" {{ old('terms') ? 'checked' : '' }} style="border-color: var(--veloria-primary);">
                 <label class="form-check-label small" for="terms">
-                    I agree to the <a href="#" class="text-decoration-none" style="color: var(--veloria-primary);">Terms</a> & <a href="#" class="text-decoration-none" style="color: var(--veloria-primary);">Privacy Policy</a>
+                    I agree to the <a href="{{ route('pages.terms') }}" target="_blank" class="text-decoration-none" style="color: var(--veloria-primary);">Terms</a> & <a href="{{ route('pages.privacy') }}" target="_blank" class="text-decoration-none" style="color: var(--veloria-primary);">Privacy Policy</a>
                 </label>
             </div>
             @error('terms')

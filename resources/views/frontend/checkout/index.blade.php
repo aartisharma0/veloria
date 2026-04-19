@@ -86,9 +86,18 @@
                         <div class="d-flex justify-content-between small mb-1"><span>Shipping</span><span>{{ $shipping == 0 ? 'FREE' : '₹'.$shipping }}</span></div>
                         <hr>
                         <div class="d-flex justify-content-between fw-bold fs-5"><span>Total</span><span style="color:var(--veloria-primary);">&#8377;{{ number_format($total,0) }}</span></div>
-                        <button type="submit" id="submitBtn" class="btn btn-veloria w-100 mt-3 py-2" {{ $addresses->isEmpty() ? 'disabled' : '' }}>
-                            <i class="bi bi-lock me-2"></i>Place Order & Pay
-                        </button>
+                        @if($addresses->isEmpty())
+                            <div class="alert alert-warning small mt-3 mb-0 text-center">
+                                <i class="bi bi-exclamation-triangle me-1"></i>Please add a shipping address to continue.
+                            </div>
+                            <button type="button" class="btn btn-secondary w-100 mt-2 py-2" disabled>
+                                <i class="bi bi-lock me-2"></i>Place Order & Pay
+                            </button>
+                        @else
+                            <button type="submit" id="submitBtn" class="btn btn-veloria w-100 mt-3 py-2">
+                                <i class="bi bi-lock me-2"></i>Place Order & Pay
+                            </button>
+                        @endif
                         <p class="text-center small text-muted mt-2 mb-0"><i class="bi bi-shield-check me-1"></i>Secure & encrypted checkout</p>
                     </div>
                 </div>

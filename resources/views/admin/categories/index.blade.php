@@ -21,7 +21,7 @@
                 <tr>
                     <td>
                         @if($cat->image)
-                            <img src="{{ Storage::url($cat->image) }}" alt="" class="rounded" style="width:45px;height:45px;object-fit:cover;">
+                            <img src="{{ str_starts_with($cat->image, 'http') ? $cat->image : Storage::url($cat->image) }}" alt="" class="rounded" style="width:45px;height:45px;object-fit:cover;">
                         @else
                             <div class="rounded bg-light d-flex align-items-center justify-content-center" style="width:45px;height:45px;"><i class="bi bi-image text-muted"></i></div>
                         @endif

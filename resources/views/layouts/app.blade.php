@@ -213,6 +213,8 @@
                         <li class="mb-2"><a href="{{ route('pages.returns') }}" class="text-decoration-none">Returns & Exchanges</a></li>
                         <li class="mb-2"><a href="{{ route('pages.size-guide') }}" class="text-decoration-none">Size Guide</a></li>
                         <li class="mb-2"><a href="{{ route('pages.faqs') }}" class="text-decoration-none">FAQs</a></li>
+                        <li class="mb-2"><a href="{{ route('pages.terms') }}" class="text-decoration-none">Terms & Conditions</a></li>
+                        <li class="mb-2"><a href="{{ route('pages.privacy') }}" class="text-decoration-none">Privacy Policy</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-6 col-12">

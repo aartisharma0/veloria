@@ -25,4 +25,14 @@ class PageController extends Controller
     {
         return view('frontend.pages.faqs');
     }
+
+    public function terms()
+    {
+        return view('frontend.pages.terms');
+    }
+
+    public function privacy()
+    {
+        return view('frontend.pages.privacy');
+    }
 }

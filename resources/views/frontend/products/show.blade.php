@@ -136,7 +136,10 @@
         <h4 class="fw-bold mb-4" style="font-family:'Playfair Display',serif;">Customer Reviews</h4>
 
         @auth
-        @php $existingReview = auth()->user()->reviews()->where('product_id', $product->id)->first(); @endphp
+        @php
+            $existingReview = auth()->user()->reviews()->where('product_id', $product->id)->first();
+            $hasPurchased = auth()->user()->orders()->where('status', '!=', 'cancelled')->whereHas('items', fn($q) => $q->where('product_id', $product->id))->exists();
+        @endphp
         @if($existingReview)
             <div class="card border-0 shadow-sm mb-4" style="background:var(--veloria-pink-soft);">
                 <div class="card-body">
@@ -151,7 +154,7 @@
                     @if(!$existingReview->approved)<small class="text-muted"><i class="bi bi-clock me-1"></i>Pending approval</small>@endif
                 </div>
             </div>
-        @else
+        @elseif($hasPurchased || auth()->user()->isAdmin())
         <div class="card border-0 shadow-sm mb-4">
             <div class="card-body">
                 <h6 class="fw-semibold mb-3">Write a Review</h6>

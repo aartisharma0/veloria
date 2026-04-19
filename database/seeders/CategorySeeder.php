@@ -20,12 +20,12 @@ class CategorySeeder extends Seeder
         ];
 
         $categoryImages = [
-            'Women' => 'categories/women.jpg',
-            'Men' => 'categories/men.jpg',
-            'Kids' => 'categories/kids.jpg',
-            'Footwear' => 'categories/footwear.jpg',
-            'Accessories' => 'categories/accessories.jpg',
-            'Beauty' => 'categories/beauty.jpg',
+            'Women' => 'https://placehold.co/400x400/FFB6C1/fff?text=Women&font=playfair-display',
+            'Men' => 'https://placehold.co/400x400/4682B4/fff?text=Men&font=playfair-display',
+            'Kids' => 'https://placehold.co/400x400/66BB6A/fff?text=Kids&font=playfair-display',
+            'Footwear' => 'https://placehold.co/400x400/8B4513/fff?text=Footwear&font=playfair-display',
+            'Accessories' => 'https://placehold.co/400x400/DAA520/fff?text=Accessories&font=playfair-display',
+            'Beauty' => 'https://placehold.co/400x400/DDA0DD/333?text=Beauty&font=playfair-display',
         ];
 
         $order = 1;

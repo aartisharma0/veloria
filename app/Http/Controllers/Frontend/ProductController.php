@@ -54,10 +54,33 @@ class ProductController extends Controller
     {
         $product = Product::where('slug', $slug)->where('status', 'active')->with(['category', 'variants'])->firstOrFail();
         $reviews = $product->reviews()->where('approved', true)->with('user')->latest()->paginate(5);
+        // Related: same category, then sibling categories, then random
         $relatedProducts = Product::where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
             ->where('status', 'active')
-            ->take(4)->get();
+            ->inRandomOrder()->take(4)->get();
+
+        if ($relatedProducts->count() < 4) {
+            $excludeIds = $relatedProducts->pluck('id')->push($product->id);
+            $parentCat = $product->category?->parent;
+            $needed = 4 - $relatedProducts->count();
+
+            if ($parentCat) {
+                $siblingCatIds = Category::where('parent_id', $parentCat->id)->pluck('id');
+                $more = Product::whereIn('category_id', $siblingCatIds)
+                    ->whereNotIn('id', $excludeIds)->where('status', 'active')
+                    ->inRandomOrder()->take($needed)->get();
+                $relatedProducts = $relatedProducts->merge($more);
+            }
+
+            $needed = 4 - $relatedProducts->count();
+            if ($needed > 0) {
+                $excludeIds = $relatedProducts->pluck('id')->push($product->id);
+                $more = Product::whereNotIn('id', $excludeIds)->where('status', 'active')
+                    ->inRandomOrder()->take($needed)->get();
+                $relatedProducts = $relatedProducts->merge($more);
+            }
+        }
 
         // Track recently viewed
         $recentlyViewed = session()->get('recently_viewed', []);
@@ -82,6 +105,16 @@ class ProductController extends Controller
         $existing = Review::where('user_id', auth()->id())->where('product_id', $product->id)->first();
         if ($existing) {
             return back()->with('error', 'You have already reviewed this product.');
+        }
+
+        // Check if user has purchased this product (verified purchase)
+        $hasPurchased = auth()->user()->orders()
+            ->where('status', '!=', 'cancelled')
+            ->whereHas('items', fn($q) => $q->where('product_id', $product->id))
+            ->exists();
+
+        if (!$hasPurchased && !auth()->user()->isAdmin()) {
+            return back()->with('error', 'You can only review products you have purchased.');
         }
 
         $autoApprove = auth()->user()->isAdmin();

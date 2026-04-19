@@ -53,6 +53,25 @@ class CheckoutController extends Controller
         $address = Address::where('id', $request->shipping_address_id)->where('user_id', auth()->id())->firstOrFail();
         $cartItems = $this->getCartDetails($cart);
         $subtotal = collect($cartItems)->sum('total');
+
+        // Calculate total first to validate COD limit
+        $discountAmt = session('cart_discount', 0);
+        $taxAmt = round(($subtotal - $discountAmt) * 0.18, 2);
+        $shippingAmt = $subtotal >= 999 ? 0 : 99;
+        $totalAmt = $subtotal - $discountAmt + $taxAmt + $shippingAmt;
+
+        // Enforce COD max limit
+        if ($request->payment_method === 'cod') {
+            $codMax = 10000;
+            $settingsPath = storage_path('app/settings.json');
+            if (file_exists($settingsPath)) {
+                $settings = json_decode(file_get_contents($settingsPath), true);
+                $codMax = $settings['cod_max_amount'] ?? 10000;
+            }
+            if ($totalAmt > $codMax) {
+                return back()->with('error', "Cash on Delivery is not available for orders above ₹" . number_format($codMax, 0) . ". Please use card payment.");
+            }
+        }
         $discount = session('cart_discount', 0);
         $tax = round(($subtotal - $discount) * 0.18, 2);
         $shipping = $subtotal >= 999 ? 0 : 99;

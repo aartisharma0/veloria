@@ -75,7 +75,7 @@ class ProductSeeder extends Seeder
                     'stock' => $p['stock'],
                     'status' => 'active',
                     'featured' => $p['featured'],
-                    'images' => [$p['img']],
+                    'images' => $this->generateImageUrls($p['name']),
                 ]
             );
 
@@ -115,5 +115,39 @@ class ProductSeeder extends Seeder
             'type' => 'percent', 'value' => 20, 'min_order' => 500,
             'uses_left' => 200, 'expires_at' => now()->addMonths(6), 'is_active' => true,
         ]);
+    }
+
+    private function generateImageUrls(string $name): array
+    {
+        $bgColors = [
+            'Floral Maxi Dress' => 'FFB6C1', 'Black Bodycon Dress' => '2C2C2C',
+            'Embroidered Anarkali Suit' => 'DAA520', 'Silk Saree - Royal Blue' => '4169E1',
+            'Casual Striped Top' => 'F0E68C', 'Ruffled Blouse' => 'DDA0DD',
+            'High Waist Skinny Jeans' => '4682B4', 'Slim Fit Oxford Shirt' => 'F5F5DC',
+            'Linen Casual Shirt' => 'D2B48C', 'Graphic Print T-Shirt' => '20B2AA',
+            'Polo T-Shirt - Navy' => '000080', 'Slim Fit Chinos' => 'C4A882',
+            'Blazer - Charcoal Grey' => '36454F', 'Tapered Jeans - Indigo' => '3F51B5',
+            'Kids Dinosaur T-Shirt' => '66BB6A', 'Girls Tutu Dress - Pink' => 'FF69B4',
+            'White Leather Sneakers' => 'F5F5F5', 'Block Heel Sandals' => 'D4A574',
+            'Running Shoes - Black' => '333333', 'Chelsea Boots - Brown' => '8B4513',
+            'Leather Tote Bag' => 'A0522D', 'Analog Watch - Rose Gold' => 'B76E79',
+            'Aviator Sunglasses' => '708090', 'Pearl Necklace Set' => 'FDEEF4',
+            'Leather Belt - Black' => '1C1C1C', 'Hydrating Face Serum' => 'E0F7FA',
+            'Matte Lipstick Set' => 'C62828', 'Eau de Parfum - Velvet Rose' => '9C27B0',
+        ];
+
+        $textColors = [
+            '2C2C2C' => 'fff', '000080' => 'fff', '36454F' => 'fff', '333333' => 'fff',
+            '3F51B5' => 'fff', '1C1C1C' => 'fff', '8B4513' => 'fff', 'A0522D' => 'fff',
+            'C62828' => 'fff', '9C27B0' => 'fff', '4169E1' => 'fff', '4682B4' => 'fff',
+        ];
+
+        $bg = $bgColors[$name] ?? 'E8B4B8';
+        $fg = $textColors[$bg] ?? '333';
+        $text = urlencode($name);
+
+        return [
+            "https://placehold.co/600x700/{$bg}/{$fg}?text={$text}&font=playfair-display",
+        ];
     }
 }

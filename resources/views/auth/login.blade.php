@@ -43,7 +43,7 @@
                 <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} style="border-color: var(--veloria-primary);">
                 <label class="form-check-label small" for="remember">Remember me</label>
             </div>
-            <a href="#" class="small text-decoration-none" style="color: var(--veloria-primary);">Forgot Password?</a>
+            <a href="{{ route('password.request') }}" class="small text-decoration-none" style="color: var(--veloria-primary);">Forgot Password?</a>
         </div>
 
         <button type="submit" class="btn btn-veloria w-100 py-2 mb-3">
