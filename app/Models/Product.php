@@ -64,7 +64,22 @@ class Product extends Model
     public function primaryImage()
     {
         $images = $this->images;
-        return $images ? ($images[0] ?? null) : null;
+        return $images && count($images) > 0 ? $images[0] : null;
+    }
+
+    public function primaryImageUrl()
+    {
+        $img = $this->primaryImage();
+        if ($img) {
+            // If it starts with http, it's an external URL
+            if (str_starts_with($img, 'http')) return $img;
+            return asset('storage/' . $img);
+        }
+        // Generate a color-based placeholder with product initials
+        $colors = ['E8B4B8', 'A8D8EA', 'D5C4A1', 'C3B1E1', 'B5EAD7', 'FFD6A5'];
+        $color = $colors[crc32($this->name) % count($colors)];
+        $initials = urlencode(strtoupper(substr($this->name, 0, 2)));
+        return "https://via.placeholder.com/400x450/{$color}/333?text={$initials}";
     }
 
     public function isInStock(): bool

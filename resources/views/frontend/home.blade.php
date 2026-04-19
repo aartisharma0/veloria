@@ -18,10 +18,10 @@
                     </p>
                     <p class="mb-4 opacity-75 d-none d-md-block">Curated collections of fashion essentials that celebrate individuality, elegance, and modern sophistication.</p>
                     <div class="d-flex flex-column flex-sm-row justify-content-center justify-content-lg-start gap-2 gap-sm-3">
-                        <a href="#" class="btn btn-veloria btn-lg px-4 px-md-5">
+                        <a href="{{ route('products.index') }}" class="btn btn-veloria btn-lg px-4 px-md-5">
                             Shop Now <i class="bi bi-arrow-right ms-2"></i>
                         </a>
-                        <a href="#" class="btn btn-veloria-outline btn-lg px-4" style="color: white; border-color: rgba(255,255,255,0.4);">
+                        <a href="{{ route('products.index', ['sort' => 'newest']) }}" class="btn btn-veloria-outline btn-lg px-4" style="color: white; border-color: rgba(255,255,255,0.4);">
                             Explore Trends
                         </a>
                     </div>
@@ -81,14 +81,14 @@
                 <div>
                     <h3 class="fw-bold section-heading mb-0 section-title" style="font-family: 'Playfair Display', serif;">Shop by Category</h3>
                 </div>
-                <a href="#" class="text-decoration-none small fw-semibold" style="color: var(--veloria-primary);">
+                <a href="{{ route('products.index') }}" class="text-decoration-none small fw-semibold" style="color: var(--veloria-primary);">
                     View All <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
             <div class="row g-2 g-md-3">
                 @forelse($categories as $category)
                     <div class="col-4 col-sm-4 col-md-3 col-lg-2">
-                        <a href="#" class="text-decoration-none text-dark">
+                        <a href="{{ route('products.index', ['category' => $category->slug]) }}" class="text-decoration-none text-dark">
                             <div class="category-card text-center p-2 p-md-3 h-100">
                                 <div class="category-icon mx-auto mb-2">
                                     <i class="bi bi-handbag fs-5 fs-md-4"></i>
@@ -124,19 +124,28 @@
                 @forelse($featuredProducts as $product)
                     <div class="col-6 col-sm-6 col-md-4 col-lg-3">
                         <div class="card product-card h-100 position-relative">
-                            <button class="wishlist-btn" title="Add to wishlist">
-                                <i class="bi bi-heart"></i>
-                            </button>
+                            @auth
+                            <form action="{{ route('wishlist.toggle') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <button type="submit" class="wishlist-btn {{ auth()->user()->wishlists->contains('product_id', $product->id) ? 'active' : '' }}" title="Wishlist">
+                                    <i class="bi bi-heart{{ auth()->user()->wishlists->contains('product_id', $product->id) ? '-fill' : '' }}"></i>
+                                </button>
+                            </form>
+                            @endauth
                             @if($product->compare_price && $product->compare_price > $product->price)
                                 <span class="badge position-absolute top-0 start-0 m-2 px-2 py-1" style="background: var(--veloria-primary); font-size: 0.65rem; z-index: 2;">
                                     -{{ round((($product->compare_price - $product->price) / $product->compare_price) * 100) }}%
                                 </span>
                             @endif
-                            <img src="{{ $product->primaryImage() ?? 'https://via.placeholder.com/300x350/f0f0f0/999?text=Coming+Soon' }}"
-                                 class="card-img-top product-image" alt="{{ $product->name }}">
+                            <a href="{{ route('products.show', $product->slug) }}">
+                                <img src="{{ $product->primaryImageUrl() }}" class="card-img-top product-image" alt="{{ $product->name }}">
+                            </a>
                             <div class="card-body d-flex flex-column p-2 p-md-3">
                                 <p class="product-category mb-1">{{ $product->category->name ?? '' }}</p>
-                                <h6 class="card-title fw-semibold mb-1 mb-md-2 product-title">{{ $product->name }}</h6>
+                                <a href="{{ route('products.show', $product->slug) }}" class="text-decoration-none text-dark">
+                                    <h6 class="card-title fw-semibold mb-1 mb-md-2 product-title">{{ $product->name }}</h6>
+                                </a>
                                 <div class="mt-auto">
                                     <div class="d-flex align-items-center gap-1 gap-md-2 mb-2">
                                         <span class="product-price">&#8377;{{ number_format($product->price, 0) }}</span>
@@ -144,9 +153,14 @@
                                             <span class="product-old-price">&#8377;{{ number_format($product->compare_price, 0) }}</span>
                                         @endif
                                     </div>
-                                    <button class="btn btn-veloria btn-sm w-100">
-                                        <i class="bi bi-bag-plus me-1"></i><span class="d-none d-sm-inline">Add to </span>Bag
-                                    </button>
+                                    <form action="{{ route('cart.add') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                        <input type="hidden" name="qty" value="1">
+                                        <button type="submit" class="btn btn-veloria btn-sm w-100">
+                                            <i class="bi bi-bag-plus me-1"></i><span class="d-none d-sm-inline">Add to </span>Bag
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -172,7 +186,7 @@
                     <div class="p-4 p-md-5 rounded-4 text-white position-relative overflow-hidden" style="background: linear-gradient(135deg, var(--veloria-dark), #555);">
                         <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 2px; color: var(--veloria-primary-light); font-size: 0.75rem;">Women's Edit</p>
                         <h3 class="fw-bold mb-3 banner-heading" style="font-family: 'Playfair Display', serif;">Effortless<br>Elegance</h3>
-                        <a href="#" class="btn btn-sm px-3 px-md-4 py-2" style="background: white; color: var(--veloria-dark); font-weight: 600; border-radius: 25px;">
+                        <a href="{{ route('products.index', ['category' => 'women']) }}" class="btn btn-sm px-3 px-md-4 py-2" style="background: white; color: var(--veloria-dark); font-weight: 600; border-radius: 25px;">
                             Shop Now <i class="bi bi-arrow-right ms-1"></i>
                         </a>
                     </div>
@@ -181,7 +195,7 @@
                     <div class="p-4 p-md-5 rounded-4 text-white position-relative overflow-hidden" style="background: linear-gradient(135deg, var(--veloria-primary), var(--veloria-primary-dark));">
                         <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 2px; opacity: 0.8; font-size: 0.75rem;">Men's Edit</p>
                         <h3 class="fw-bold mb-3 banner-heading" style="font-family: 'Playfair Display', serif;">Modern<br>Sophistication</h3>
-                        <a href="#" class="btn btn-sm px-3 px-md-4 py-2" style="background: white; color: var(--veloria-primary-dark); font-weight: 600; border-radius: 25px;">
+                        <a href="{{ route('products.index', ['category' => 'men']) }}" class="btn btn-sm px-3 px-md-4 py-2" style="background: white; color: var(--veloria-primary-dark); font-weight: 600; border-radius: 25px;">
                             Shop Now <i class="bi bi-arrow-right ms-1"></i>
                         </a>
                     </div>
@@ -198,7 +212,7 @@
                     <p class="text-uppercase small fw-semibold mb-1" style="letter-spacing: 3px; color: var(--veloria-primary);">Just Dropped</p>
                     <h3 class="fw-bold section-heading mb-0 section-title" style="font-family: 'Playfair Display', serif;">New Arrivals</h3>
                 </div>
-                <a href="#" class="text-decoration-none small fw-semibold" style="color: var(--veloria-primary);">
+                <a href="{{ route('products.index') }}" class="text-decoration-none small fw-semibold" style="color: var(--veloria-primary);">
                     View All <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
@@ -206,15 +220,24 @@
                 @forelse($latestProducts as $product)
                     <div class="col-6 col-sm-6 col-md-4 col-lg-3">
                         <div class="card product-card h-100 position-relative">
-                            <button class="wishlist-btn" title="Add to wishlist">
-                                <i class="bi bi-heart"></i>
-                            </button>
+                            @auth
+                            <form action="{{ route('wishlist.toggle') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <button type="submit" class="wishlist-btn {{ auth()->user()->wishlists->contains('product_id', $product->id) ? 'active' : '' }}" title="Wishlist">
+                                    <i class="bi bi-heart{{ auth()->user()->wishlists->contains('product_id', $product->id) ? '-fill' : '' }}"></i>
+                                </button>
+                            </form>
+                            @endauth
                             <span class="badge position-absolute top-0 start-0 m-2 px-2 py-1 bg-dark" style="font-size: 0.65rem; z-index: 2;">NEW</span>
-                            <img src="{{ $product->primaryImage() ?? 'https://via.placeholder.com/300x350/f0f0f0/999?text=Coming+Soon' }}"
-                                 class="card-img-top product-image" alt="{{ $product->name }}">
+                            <a href="{{ route('products.show', $product->slug) }}">
+                                <img src="{{ $product->primaryImageUrl() }}" class="card-img-top product-image" alt="{{ $product->name }}">
+                            </a>
                             <div class="card-body d-flex flex-column p-2 p-md-3">
                                 <p class="product-category mb-1">{{ $product->category->name ?? '' }}</p>
-                                <h6 class="card-title fw-semibold mb-1 mb-md-2 product-title">{{ $product->name }}</h6>
+                                <a href="{{ route('products.show', $product->slug) }}" class="text-decoration-none text-dark">
+                                    <h6 class="card-title fw-semibold mb-1 mb-md-2 product-title">{{ $product->name }}</h6>
+                                </a>
                                 <div class="mt-auto">
                                     <div class="d-flex align-items-center gap-1 gap-md-2 mb-2">
                                         <span class="product-price">&#8377;{{ number_format($product->price, 0) }}</span>
@@ -222,9 +245,14 @@
                                             <span class="product-old-price">&#8377;{{ number_format($product->compare_price, 0) }}</span>
                                         @endif
                                     </div>
-                                    <button class="btn btn-veloria btn-sm w-100">
-                                        <i class="bi bi-bag-plus me-1"></i><span class="d-none d-sm-inline">Add to </span>Bag
-                                    </button>
+                                    <form action="{{ route('cart.add') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                        <input type="hidden" name="qty" value="1">
+                                        <button type="submit" class="btn btn-veloria btn-sm w-100">
+                                            <i class="bi bi-bag-plus me-1"></i><span class="d-none d-sm-inline">Add to </span>Bag
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -248,10 +276,11 @@
             <i class="bi bi-envelope-heart fs-3 fs-md-2" style="color: var(--veloria-primary);"></i>
             <h3 class="fw-bold mt-3 mb-2 section-title" style="font-family: 'Playfair Display', serif;">Join the Veloria Family</h3>
             <p class="text-muted mb-4 small">Be the first to know about new collections, exclusive deals, and style inspiration.</p>
-            <form class="newsletter-form mx-auto">
+            <form class="newsletter-form mx-auto" action="{{ route('subscribe') }}" method="POST">
+                @csrf
                 <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
-                    <input type="email" class="form-control newsletter-input" placeholder="Enter your email address">
-                    <button class="btn btn-veloria px-4 flex-shrink-0" type="button" style="border-radius: 25px;">Subscribe</button>
+                    <input type="email" name="email" class="form-control newsletter-input @error('email') is-invalid @enderror" placeholder="Enter your email address" value="{{ old('email') }}" required>
+                    <button class="btn btn-veloria px-4 flex-shrink-0" type="submit" style="border-radius: 25px;">Subscribe</button>
                 </div>
             </form>
             <p class="small text-muted mt-2">No spam, unsubscribe anytime.</p>

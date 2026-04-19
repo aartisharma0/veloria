@@ -1,142 +1,123 @@
-# Veloria - Fashion & Lifestyle E-Commerce Platform
+<h1 align="center">VELORIA</h1>
+<h3 align="center"><em>"Where every piece tells your story"</em></h3>
 
-A fully functional e-commerce platform built with Laravel 10, designed for fashion and lifestyle products. Inspired by Amazon and Flipkart with a modern, responsive UI.
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-10-FF2D20?style=for-the-badge&logo=laravel&logoColor=white">
+  <img src="https://img.shields.io/badge/Bootstrap-5-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white">
+  <img src="https://img.shields.io/badge/Stripe-Payment-635BFF?style=for-the-badge&logo=stripe&logoColor=white">
+  <img src="https://img.shields.io/badge/MySQL-Database-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+</p>
 
-## Tech Stack
+<p align="center">
+A full-stack fashion & lifestyle e-commerce platform with Admin Panel, Shopping Cart, Wishlist, Stripe Checkout, Order Management, Email Notifications, Dark Mode, and more.
+</p>
 
-- **Backend:** Laravel 10 (PHP 8.1+)
-- **Frontend:** Bootstrap 5, SCSS, Bootstrap Icons
-- **Database:** MySQL
-- **Build Tool:** Vite
-- **Auth:** Custom authentication with role-based access control
+---
 
-## Features
+## What is Veloria?
 
-### Authentication & Authorization
-- Custom login/register with strong password policies (mixed case, numbers, symbols)
-- Role-based access: **Admin** and **User** roles
-- Rate-limited login (5 attempts per minute per email+IP)
-- Session regeneration on login/logout (session fixation protection)
-- Account deactivation support
-- CSRF protection on all forms
-- Password breach detection (Have I Been Pwned integration via Laravel)
+Veloria is a complete e-commerce web application — like Amazon, Flipkart, or Myntra — built from scratch with Laravel. It includes everything needed to run an online fashion store:
 
-### User Side (Customer)
-- Responsive storefront with product browsing
-- Search bar, categories, featured products, new arrivals
-- Wishlist and cart (session-based)
-- User account management (orders, addresses, profile)
+- **Admin Panel** — Manage products, categories, orders, customers, coupons, reviews, subscribers, enquiries, and store settings
+- **Customer Side** — Browse products, add to cart/wishlist, apply coupons, checkout with Stripe or COD, track orders, write reviews
+- **Email Notifications** — Welcome email, order confirmation, order status updates, newsletter subscription, review thank you
+- **Interactive Features** — Live search autocomplete, dark mode, image zoom, toast notifications, scroll animations, social sharing, invoice PDF download
+- **Fully Responsive** — Works on mobile, tablet, and desktop
+- **Security** — CSRF protection, bcrypt hashing, rate limiting, strong password policy, role-based access control
 
-### Admin Panel
-- Dashboard with revenue, orders, products, and customer stats
-- Sidebar navigation for all admin modules
-- Product, category, order, coupon, and review management
-- Quick actions and alerts
+---
 
-### Database Schema (10 tables)
-- `users` - with role, phone, avatar, is_active
-- `categories` - hierarchical (parent/child), sortable
-- `products` - with images (JSON), variants, SKU, featured flag
-- `product_variants` - size, color, price modifier, stock
-- `orders` - full lifecycle (pending/processing/shipped/delivered/cancelled)
-- `order_items` - linked to products and variants
-- `addresses` - billing & shipping with default flag
-- `coupons` - percentage/flat, min order, expiry, usage limits
-- `payments` - provider, transaction ID, status tracking
-- `reviews` - star rating (1-5), moderation (approved flag)
-- `wishlists` - user-product favorites
+## How to Run
 
-## Project Structure
+### Prerequisites
 
-```
-app/
-  Http/
-    Controllers/
-      Auth/           # Login, Register controllers
-      Admin/          # Admin dashboard & management
-      Frontend/       # Public storefront pages
-    Middleware/
-      AdminMiddleware.php       # Admin role guard
-      UserMiddleware.php        # Authenticated user guard
-      ActiveUserMiddleware.php  # Account active check
-  Models/               # Eloquent models with relationships
+- PHP 8.1+ | Composer | Node.js 16+ | MySQL | Git
 
-routes/
-  web.php              # Public & user routes
-  admin.php            # Admin routes (prefix: /admin, middleware: auth+admin)
+### Setup (5 minutes)
 
-resources/views/
-  layouts/
-    app.blade.php      # User/storefront master layout (navbar, footer)
-    admin.blade.php    # Admin master layout (sidebar, topbar)
-    auth.blade.php     # Auth pages layout (centered card)
-  auth/                # Login, register views
-  admin/               # Admin panel views
-  frontend/            # Storefront views
-```
-
-## Setup Instructions
-
-### 1. Clone & Install Dependencies
 ```bash
+# Clone
+git clone https://github.com/aartisharma0/veloria.git
+cd veloria
+
+# Install
 composer install
 npm install
-```
 
-### 2. Environment Configuration
-```bash
+# Configure
 cp .env.example .env
 php artisan key:generate
 ```
 
-Update `.env` with your database settings:
+Edit `.env` and set your database:
+
 ```
 DB_DATABASE=veloria
 DB_USERNAME=root
 DB_PASSWORD=your_password
 ```
 
-### 3. Run Migrations & Seed
 ```bash
+# Database + sample data
 php artisan migrate --seed
+php artisan storage:link
+
+# Build + Run
+npm run build
+php artisan serve
 ```
 
-### 4. Build Assets & Start Server
-```bash
-npm run dev          # Development (with hot reload)
-npm run build        # Production build
-php artisan serve    # Start at http://localhost:8000
-```
+Open **http://localhost:8000**
 
-## Default Accounts
+### Login Accounts
 
-| Role  | Email              | Password   |
-|-------|--------------------|------------|
-| Admin | admin@veloria.com  | Admin@123  |
-| User  | user@veloria.com   | User@123   |
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | admin@veloria.com | Admin@123 |
+| User | user@veloria.com | User@123 |
 
-## Routes Overview
+### Test Coupon Codes
 
-| URL                | Role   | Description           |
-|--------------------|--------|-----------------------|
-| `/`                | Public | Home page             |
-| `/login`           | Guest  | Login page            |
-| `/register`        | Guest  | Registration page     |
-| `/logout`          | Auth   | Logout (POST)         |
-| `/admin/dashboard` | Admin  | Admin dashboard       |
+| Code | Discount |
+|------|----------|
+| WELCOME20 | 20% off (min Rs.500) |
+| VELORIA10 | 10% off (min Rs.999) |
+| FLAT200 | Rs.200 off (min Rs.1499) |
 
-## Security Features
+### Stripe Test Card
 
-- CSRF token on all forms
-- Password hashing (bcrypt via Laravel)
-- Strong password validation (8+ chars, mixed case, numbers, symbols, breach check)
-- Login rate limiting (5 attempts/min)
-- Session regeneration on auth state changes
-- Role-based middleware guards
-- XSS protection (Blade auto-escaping)
-- SQL injection protection (Eloquent ORM)
-- Account deactivation with forced logout
+`4242 4242 4242 4242` | Expiry: any future date | CVC: any 3 digits
 
-## License
+---
 
-This project is for educational/portfolio purposes.
+## Tech Stack
+
+Laravel 10 | Bootstrap 5 | MySQL | Stripe | Vite | SCSS | jQuery | Select2
+
+---
+
+## Connect With Me
+
+**Built by Aarti Sharma**
+
+| | |
+|---|---|
+| **Portfolio** | [aartisharma-portfolio.netlify.app](https://aartisharma-portfolio.netlify.app/) |
+| **GitHub** | [github.com/aartisharma0](https://github.com/aartisharma0) |
+
+---
+
+## Support
+
+If you found this project useful:
+
+- **Star** this repo
+- **Fork** it and build on top of it
+- **Share** it with fellow developers
+
+---
+
+<p align="center">
+  <strong>VELORIA</strong> — <em>"Where every piece tells your story"</em><br>
+  Made with &#10084; by <a href="https://aartisharma-portfolio.netlify.app/">Aarti Sharma</a>
+</p>

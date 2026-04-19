@@ -436,6 +436,248 @@ body {
 }
 
 // ============================================
+// DARK MODE
+// ============================================
+[data-theme="dark"] {
+    --veloria-bg: #1a1a2e;
+    --veloria-dark: #e0e0e0;
+    --veloria-light-grey: #16213e;
+    --veloria-white: #0f3460;
+
+    body {
+        background-color: #1a1a2e !important;
+        color: #e0e0e0;
+    }
+
+    .navbar-veloria {
+        background: #16213e !important;
+        border-bottom-color: var(--veloria-primary) !important;
+
+        .nav-link { color: #ccc !important; }
+        .navbar-brand span:first-child { color: var(--veloria-primary-light) !important; }
+        .tagline { color: #888 !important; }
+    }
+
+    .bg-white, .card, .form-control, .form-select, .dropdown-menu, .modal-content {
+        background-color: #16213e !important;
+        color: #e0e0e0 !important;
+        border-color: #2a2a4a !important;
+    }
+
+    .table { color: #ccc; }
+    .table-light { background-color: #1a1a3e !important; color: #ccc !important; }
+    .table-light th { color: #ccc !important; }
+    .border-bottom { border-color: #2a2a4a !important; }
+
+    .product-card {
+        background: #16213e !important;
+        border-color: #2a2a4a !important;
+
+        &:hover { border-color: var(--veloria-primary-light) !important; }
+    }
+
+    .category-card { background: #16213e !important; border-color: #2a2a4a !important; }
+    .features-bar { background: #16213e !important; border-color: #2a2a4a !important; }
+    .newsletter-section { background: #16213e !important; border-color: #2a2a4a !important; }
+    .top-bar { background: #0f0f23 !important; }
+    .text-dark { color: #e0e0e0 !important; }
+    .text-muted { color: #888 !important; }
+    .shadow-sm { box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important; }
+
+    .search-bar .form-control {
+        background: #1a1a3e !important;
+        border-color: #3a3a5a !important;
+        color: #e0e0e0 !important;
+    }
+
+    .auth-card { background: #16213e !important; }
+    .breadcrumb-item a { color: var(--veloria-primary-light) !important; }
+    .btn-outline-secondary { border-color: #3a3a5a !important; color: #ccc !important; }
+
+    input::placeholder, textarea::placeholder { color: #666 !important; }
+}
+
+// Dark mode toggle button
+.dark-mode-toggle {
+    position: fixed;
+    bottom: 85px;
+    right: 30px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    background: white;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1050;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    transition: all 0.3s;
+    font-size: 1.1rem;
+
+    &:hover {
+        background: var(--veloria-primary);
+        color: white;
+        border-color: var(--veloria-primary);
+    }
+}
+
+[data-theme="dark"] .dark-mode-toggle {
+    background: #16213e;
+    color: #ffd700;
+    border-color: #3a3a5a;
+}
+
+// ============================================
+// INTERACTIVE & ANIMATION STYLES
+// ============================================
+
+// Scroll reveal animations
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+
+    &.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Product card hover effects
+.product-card {
+    .card-img-top {
+        transition: transform 0.5s ease;
+    }
+
+    &:hover .card-img-top {
+        transform: scale(1.05);
+    }
+
+    .product-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.03);
+        opacity: 0;
+        transition: opacity 0.3s;
+        pointer-events: none;
+    }
+
+    &:hover .product-overlay {
+        opacity: 1;
+    }
+}
+
+// Pulse animation for cart badge
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+.badge-pulse {
+    animation: pulse 0.4s ease;
+}
+
+// Slide in from right (toast)
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.toast {
+    animation: slideInRight 0.4s ease;
+}
+
+// Floating label effect
+.floating-label {
+    position: relative;
+
+    input:focus + label,
+    input:not(:placeholder-shown) + label {
+        top: -10px;
+        font-size: 0.75rem;
+        color: var(--veloria-primary);
+    }
+}
+
+// Quick View Modal
+.quick-view-modal {
+    .modal-content {
+        border: none;
+        border-radius: 16px;
+        overflow: hidden;
+    }
+}
+
+// Sticky Add to Cart bar
+.sticky-cart-bar {
+    position: fixed;
+    bottom: -80px;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 2px solid var(--veloria-primary-light);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 1040;
+    transition: bottom 0.3s ease;
+    padding: 12px 0;
+
+    &.show {
+        bottom: 0;
+    }
+}
+
+// Spin wheel
+.spin-wheel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(var(--spin-deg)); }
+}
+
+// Count up animation
+.count-up {
+    transition: all 0.3s ease;
+}
+
+// Hover grow
+.hover-grow {
+    transition: transform 0.2s ease;
+    &:hover {
+        transform: scale(1.02);
+    }
+}
+
+// ============================================
 // RESPONSIVE STYLES
 // ============================================
 

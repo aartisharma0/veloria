@@ -15,40 +15,40 @@
     <div class="px-3 py-2 mt-2">
         <small class="text-uppercase fw-semibold" style="color: rgba(255,255,255,0.3); font-size: 0.65rem; letter-spacing: 1px;">Catalogue</small>
     </div>
-    <a class="nav-link" href="#">
+    <a class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}">
         <i class="bi bi-folder"></i> Categories
     </a>
-    <a class="nav-link" href="#">
+    <a class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}" href="{{ route('admin.products.index') }}">
         <i class="bi bi-handbag"></i> Products
     </a>
     <div class="px-3 py-2 mt-2">
         <small class="text-uppercase fw-semibold" style="color: rgba(255,255,255,0.3); font-size: 0.65rem; letter-spacing: 1px;">Sales</small>
     </div>
-    <a class="nav-link" href="#">
+    <a class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}" href="{{ route('admin.orders.index') }}">
         <i class="bi bi-bag-check"></i> Orders
     </a>
-    <a class="nav-link" href="#">
+    <a class="nav-link {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}" href="{{ route('admin.customers.index') }}">
         <i class="bi bi-people"></i> Customers
-    </a>
-    <a class="nav-link" href="#">
-        <i class="bi bi-credit-card"></i> Payments
     </a>
     <div class="px-3 py-2 mt-2">
         <small class="text-uppercase fw-semibold" style="color: rgba(255,255,255,0.3); font-size: 0.65rem; letter-spacing: 1px;">Marketing</small>
     </div>
-    <a class="nav-link" href="#">
+    <a class="nav-link {{ request()->routeIs('admin.coupons.*') ? 'active' : '' }}" href="{{ route('admin.coupons.index') }}">
         <i class="bi bi-ticket-perforated"></i> Coupons
     </a>
-    <a class="nav-link" href="#">
+    <a class="nav-link {{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}" href="{{ route('admin.reviews.index') }}">
         <i class="bi bi-star"></i> Reviews
     </a>
-    <a class="nav-link" href="#">
-        <i class="bi bi-bar-chart"></i> Reports
+    <a class="nav-link {{ request()->routeIs('admin.subscribers.*') ? 'active' : '' }}" href="{{ route('admin.subscribers.index') }}">
+        <i class="bi bi-envelope"></i> Subscribers
+    </a>
+    <a class="nav-link {{ request()->routeIs('admin.enquiries.*') ? 'active' : '' }}" href="{{ route('admin.enquiries.index') }}">
+        <i class="bi bi-chat-dots"></i> Enquiries
     </a>
     <div class="px-3 py-2 mt-2">
         <small class="text-uppercase fw-semibold" style="color: rgba(255,255,255,0.3); font-size: 0.65rem; letter-spacing: 1px;">System</small>
     </div>
-    <a class="nav-link" href="#">
+    <a class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}" href="{{ route('admin.settings.index') }}">
         <i class="bi bi-gear"></i> Settings
     </a>
 </nav>

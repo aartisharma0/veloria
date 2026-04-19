@@ -89,7 +89,7 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
                     <h6 class="fw-semibold mb-0">Recent Orders</h6>
-                    <a href="#" class="btn btn-sm" style="border: 1.5px solid var(--veloria-primary); color: var(--veloria-primary); border-radius: 20px; font-size: 0.75rem;">View All</a>
+                    <a href="{{ route('admin.orders.index') }}" class="btn btn-sm" style="border: 1.5px solid var(--veloria-primary); color: var(--veloria-primary); border-radius: 20px; font-size: 0.75rem;">View All</a>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -148,22 +148,22 @@
                 </div>
                 <div class="card-body">
                     <div class="d-grid gap-2">
-                        <a href="#" class="btn btn-sm text-start py-2" style="border: 1.5px solid #e0e0e0; border-radius: 8px;">
+                        <a href="{{ route('admin.products.create') }}" class="btn btn-sm text-start py-2" style="border: 1.5px solid #e0e0e0; border-radius: 8px;">
                             <i class="bi bi-plus-circle me-2" style="color: var(--veloria-primary);"></i> Add New Product
                         </a>
-                        <a href="#" class="btn btn-sm text-start py-2" style="border: 1.5px solid #e0e0e0; border-radius: 8px;">
+                        <a href="{{ route('admin.categories.create') }}" class="btn btn-sm text-start py-2" style="border: 1.5px solid #e0e0e0; border-radius: 8px;">
                             <i class="bi bi-folder-plus me-2 text-success"></i> Add Category
                         </a>
-                        <a href="#" class="btn btn-sm text-start py-2" style="border: 1.5px solid #e0e0e0; border-radius: 8px;">
+                        <a href="{{ route('admin.orders.index', ['status' => 'pending']) }}" class="btn btn-sm text-start py-2" style="border: 1.5px solid #e0e0e0; border-radius: 8px;">
                             <i class="bi bi-bag-check me-2 text-info"></i> Pending Orders
                             @if($stats['pending_orders'] > 0)
                                 <span class="badge rounded-pill float-end" style="background: var(--veloria-primary); font-size: 0.7rem;">{{ $stats['pending_orders'] }}</span>
                             @endif
                         </a>
-                        <a href="#" class="btn btn-sm text-start py-2" style="border: 1.5px solid #e0e0e0; border-radius: 8px;">
+                        <a href="{{ route('admin.coupons.create') }}" class="btn btn-sm text-start py-2" style="border: 1.5px solid #e0e0e0; border-radius: 8px;">
                             <i class="bi bi-ticket-perforated me-2 text-warning"></i> Create Coupon
                         </a>
-                        <a href="#" class="btn btn-sm text-start py-2" style="border: 1.5px solid #e0e0e0; border-radius: 8px;">
+                        <a href="{{ route('admin.reviews.index') }}" class="btn btn-sm text-start py-2" style="border: 1.5px solid #e0e0e0; border-radius: 8px;">
                             <i class="bi bi-star me-2" style="color: var(--veloria-primary);"></i> Manage Reviews
                         </a>
                     </div>

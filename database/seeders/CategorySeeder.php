@@ -19,6 +19,15 @@ class CategorySeeder extends Seeder
             'Beauty' => ['Skincare', 'Makeup', 'Fragrances', 'Hair Care'],
         ];
 
+        $categoryImages = [
+            'Women' => 'categories/women.jpg',
+            'Men' => 'categories/men.jpg',
+            'Kids' => 'categories/kids.jpg',
+            'Footwear' => 'categories/footwear.jpg',
+            'Accessories' => 'categories/accessories.jpg',
+            'Beauty' => 'categories/beauty.jpg',
+        ];
+
         $order = 1;
         foreach ($categories as $parent => $children) {
             $parentCategory = Category::updateOrCreate(
@@ -27,6 +36,7 @@ class CategorySeeder extends Seeder
                     'name' => $parent,
                     'is_active' => true,
                     'sort_order' => $order++,
+                    'image' => $categoryImages[$parent] ?? null,
                 ]
             );
 

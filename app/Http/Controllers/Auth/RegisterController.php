@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Mail\WelcomeMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules\Password;
 
 class RegisterController extends Controller
@@ -52,6 +54,8 @@ class RegisterController extends Controller
         Auth::login($user);
 
         $request->session()->regenerate();
+
+        try { Mail::to($user->email)->send(new WelcomeMail($user)); } catch (\Exception $e) {}
 
         return redirect()->route('home')->with('success', 'Welcome to Veloria! Your account has been created.');
     }
