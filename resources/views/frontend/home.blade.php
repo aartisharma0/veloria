@@ -3,8 +3,9 @@
 @section('title', 'Home')
 
 @section('content')
-    {{-- Hero Section --}}
+    {{-- Hero Section with floating particles --}}
     <section class="hero-section">
+        <div class="hero-particles" id="heroParticles"></div>
         <div class="container position-relative">
             <div class="row align-items-center">
                 <div class="col-lg-7 text-center text-lg-start">
@@ -28,6 +29,74 @@
                 </div>
             </div>
         </div>
+    </section>
+
+    {{-- 3D Rotating Cube Showcase --}}
+    <section class="py-5 position-relative overflow-hidden" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 text-white mb-4 mb-lg-0">
+                    <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 3px; color: var(--veloria-primary-light);">Explore Collections</p>
+                    <h2 class="fw-bold mb-3" style="font-family: 'Playfair Display', serif; font-size: 2.2rem;">
+                        Curated For<br><span style="color: var(--veloria-primary-light);">Every Occasion</span>
+                    </h2>
+                    <p class="opacity-75 mb-4">From everyday essentials to special occasion outfits — discover pieces that define your unique style.</p>
+
+                    <div class="d-flex flex-wrap gap-3">
+                        <div class="text-center">
+                            <div class="fs-2 fw-bold counter" data-target="500" style="color: var(--veloria-primary-light);">0</div>
+                            <small class="opacity-60">Products</small>
+                        </div>
+                        <div style="border-left: 1px solid rgba(255,255,255,0.15); margin: 0 10px;"></div>
+                        <div class="text-center">
+                            <div class="fs-2 fw-bold counter" data-target="50" style="color: var(--veloria-primary-light);">0</div>
+                            <small class="opacity-60">Brands</small>
+                        </div>
+                        <div style="border-left: 1px solid rgba(255,255,255,0.15); margin: 0 10px;"></div>
+                        <div class="text-center">
+                            <div class="fs-2 fw-bold counter" data-target="10000" style="color: var(--veloria-primary-light);">0</div>
+                            <small class="opacity-60">Happy Customers</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 d-flex justify-content-center">
+                    <div class="cube-scene">
+                        <div class="cube" id="cube3d">
+                            <div class="cube-face cube-front">
+                                <i class="bi bi-handbag"></i>
+                                <span>Women</span>
+                            </div>
+                            <div class="cube-face cube-back">
+                                <i class="bi bi-watch"></i>
+                                <span>Accessories</span>
+                            </div>
+                            <div class="cube-face cube-right">
+                                <i class="bi bi-person-standing"></i>
+                                <span>Men</span>
+                            </div>
+                            <div class="cube-face cube-left">
+                                <i class="bi bi-stars"></i>
+                                <span>Beauty</span>
+                            </div>
+                            <div class="cube-face cube-top">
+                                <i class="bi bi-bag-heart"></i>
+                                <span>New In</span>
+                            </div>
+                            <div class="cube-face cube-bottom">
+                                <i class="bi bi-boot"></i>
+                                <span>Footwear</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Floating 3D orbs --}}
+        <div class="floating-orb" style="top:20%;left:5%;width:80px;height:80px;"></div>
+        <div class="floating-orb" style="top:60%;right:8%;width:50px;height:50px;animation-delay:2s;"></div>
+        <div class="floating-orb" style="bottom:10%;left:30%;width:35px;height:35px;animation-delay:4s;"></div>
     </section>
 
     {{-- Features Bar --}}
@@ -266,6 +335,66 @@
                         </div>
                     </div>
                 @endforelse
+            </div>
+        </div>
+    </section>
+
+    {{-- 3D Flip Cards - Why Choose Veloria --}}
+    <section class="py-5" style="background: linear-gradient(135deg, #fdf2f8, #f8f8f8);">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="text-uppercase small fw-semibold mb-1" style="letter-spacing: 3px; color: var(--veloria-primary);">Why Veloria?</p>
+                <h3 class="fw-bold section-title" style="font-family: 'Playfair Display', serif;">The Veloria Difference</h3>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4 col-sm-6">
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <i class="bi bi-gem fs-1"></i>
+                                <h5 class="fw-bold mt-3">Premium Quality</h5>
+                                <p class="small opacity-75">Handpicked fabrics & materials</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <i class="bi bi-check-circle fs-2 mb-2"></i>
+                                <p class="small">Every product goes through 5-step quality checks. We source only from certified manufacturers with ethical practices.</p>
+                                <a href="{{ route('products.index') }}" class="btn btn-sm btn-light mt-2">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <i class="bi bi-truck fs-1"></i>
+                                <h5 class="fw-bold mt-3">Express Delivery</h5>
+                                <p class="small opacity-75">2-3 days across India</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <i class="bi bi-lightning fs-2 mb-2"></i>
+                                <p class="small">Free shipping on orders above Rs.999. Same-day dispatch for orders before 2 PM. Track your order in real-time.</p>
+                                <a href="{{ route('pages.shipping') }}" class="btn btn-sm btn-light mt-2">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <i class="bi bi-arrow-return-left fs-1"></i>
+                                <h5 class="fw-bold mt-3">Easy Returns</h5>
+                                <p class="small opacity-75">30-day hassle-free returns</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <i class="bi bi-shield-check fs-2 mb-2"></i>
+                                <p class="small">Don't love it? Return within 30 days for a full refund. Free pickup from your doorstep. No questions asked.</p>
+                                <a href="{{ route('pages.returns') }}" class="btn btn-sm btn-light mt-2">Return Policy</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

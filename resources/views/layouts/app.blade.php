@@ -287,6 +287,105 @@
                 minimumResultsForSearch: 5
             });
 
+            // === 3D: Animated Counter ===
+            const counterObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const target = parseInt(el.dataset.target);
+                        const duration = 2000;
+                        const step = target / (duration / 16);
+                        let current = 0;
+                        const timer = setInterval(() => {
+                            current += step;
+                            if (current >= target) {
+                                el.textContent = target.toLocaleString() + '+';
+                                clearInterval(timer);
+                            } else {
+                                el.textContent = Math.floor(current).toLocaleString();
+                            }
+                        }, 16);
+                        counterObserver.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.5 });
+            document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+            // === 3D: Cube mouse interaction ===
+            const cube = document.getElementById('cube3d');
+            if (cube) {
+                cube.parentElement.addEventListener('mouseenter', () => {
+                    cube.style.animationPlayState = 'paused';
+                });
+                cube.parentElement.addEventListener('mouseleave', () => {
+                    cube.style.animationPlayState = 'running';
+                });
+            }
+
+            // === EFFECT 1: Hero Floating Particles ===
+            const heroParticles = document.getElementById('heroParticles');
+            if (heroParticles) {
+                for (let i = 0; i < 25; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.width = (Math.random() * 6 + 3) + 'px';
+                    particle.style.height = particle.style.width;
+                    particle.style.animationDuration = (Math.random() * 8 + 6) + 's';
+                    particle.style.animationDelay = (Math.random() * 10) + 's';
+                    particle.style.opacity = Math.random() * 0.3;
+                    heroParticles.appendChild(particle);
+                }
+            }
+
+            // === EFFECT 2: Product Card 3D Tilt ===
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('mousemove', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -6;
+                    const rotateY = ((x - centerX) / centerX) * 6;
+
+                    this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+                    this.classList.add('tilt-active');
+                });
+
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+                    this.classList.remove('tilt-active');
+                });
+            });
+
+            // === EFFECT 3: Confetti on Order Success ===
+            if (window.location.pathname.includes('/checkout/success')) {
+                launchConfetti();
+            }
+
+            function launchConfetti() {
+                const colors = ['#d63384', '#ff69b4', '#ffd700', '#00d2ff', '#7b68ee', '#ff6347', '#32cd32', '#ff1493'];
+                const shapes = ['circle', 'square'];
+
+                for (let i = 0; i < 80; i++) {
+                    setTimeout(() => {
+                        const confetti = document.createElement('div');
+                        confetti.classList.add('confetti-piece');
+                        confetti.style.left = Math.random() * 100 + 'vw';
+                        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                        confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                        confetti.style.height = confetti.style.width;
+                        confetti.style.borderRadius = shapes[Math.floor(Math.random() * shapes.length)] === 'circle' ? '50%' : '2px';
+                        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                        confetti.style.animationDelay = '0s';
+                        document.body.appendChild(confetti);
+
+                        setTimeout(() => confetti.remove(), 4000);
+                    }, i * 40);
+                }
+            }
+
             // Auto-dismiss toasts
             $('.toast[data-bs-autohide="true"]').each(function() {
                 var toast = new bootstrap.Toast(this);
